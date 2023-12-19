@@ -1,0 +1,45 @@
+{% extends "layout.twig" %}
+
+{% block header %}
+    <header class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <span class="navbar-brand">Solutions IT - Ticketsystem</span>
+            <a class="" onclick="openNewTicket()">Neues Ticket erstellen</a>
+        </div>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Ersteller</th>
+                <th>Erstellungsdatum</th>
+                <th>Priorität</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in data %}
+                <tr onclick="openDetails({{ row.ticketID }})">
+                    <td>{{ row.ticketID }}</td>
+                    <td>{{ row.creator }}</td>
+                    <td>{{ row.creationDate }}</td>
+                    <td>{{ row.Prio }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <script>
+        function openDetails(id){
+            window.location.href = 'index.php?ticket=' + id
+        }
+        function openNewTicket(){
+            window.location.href = 'index.php?newticket'
+        }
+    </script>
+{% endblock %}

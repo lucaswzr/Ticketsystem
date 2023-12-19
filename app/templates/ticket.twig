@@ -1,0 +1,115 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1>Ticketdetails</h1>
+
+        <h3>Erstellungsdetails:</h3>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row">Ticket ID</th>
+                    <td>{{ ticketdetails[0].ticketID }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Creator</th>
+                    <td>{{ ticketdetails[0].creator }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Creation Date</th>
+                    <td>{{ ticketdetails[0].creationDate }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Finish Date</th>
+                    <td>{{ ticketdetails[0].finishDate }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Priorität</th>
+                    <td>{{ ticketdetails[0].Prio }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Problem:</h3>
+        <table class="table">
+            <tbody>
+            <tr>
+                <th scope="row">Typ des Problems</th>
+                <td>{{ ticketdetails[0].typ }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Beschreibung</th>
+                <td>{{ ticketdetails[0].describtion }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Wann ist es erschienen?</th>
+                <td>{{ ticketdetails[0].appearanceTime }}</td>
+            </tr>
+
+            </tbody>
+        </table>
+        <h3>Kundeninformationen:</h3>
+        <table class="table">
+            <tbody>
+            <tr>
+                <th scope="row">Kundennummer</th>
+                <td>{{ ticketdetails[0].customerID }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Vorname</th>
+                <td>{{ ticketdetails[0].firstName }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Nachname</th>
+                <td>{{ ticketdetails[0].lastName }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Adresse</th>
+                <td>{{ ticketdetails[0].adress }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Telefonnummer</th>
+                <td>{{ ticketdetails[0].phoneNumber }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Mail</th>
+                <td>{{ ticketdetails[0].mail }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function openeditableTicket(id){
+            window.location.href = 'index.php?editTicket=' + id;
+        }
+    </script>
+{% endblock %}
+
+{% block footer %}
+
+    <footer class="bg-dark text-light py-2">
+        <div class="container d-flex justify-content-center">
+            <ul class="list-inline mb-1">
+                <li class="list-inline-item mx-2">
+                    <a class="btn btn-primary" href="mailto:{{ ticketdetails[0].mail }}">Per Mail Antworten</a>
+                </li>
+
+                <li class="list-inline-item mx-2">
+                    <a class="btn btn-primary" onclick="openeditableTicket({{ ticketdetails[0].ticketID }})">Ticket bearbeiten</a>
+                </li>
+
+                <li class="list-inline-item mx-2">
+                    <form action="index.php" method="post">
+                        <input type="hidden" name="ticketID" value="{{ ticketdetails[0].ticketID }}">
+                        {% if ticketdetails[0].finish == 1 %}
+                            <button class="btn btn-primary" type="submit" name="openTicket">Ticket öffnen</button>
+                        {% else %}
+                            <button class="btn btn-primary" type="submit" name="closeTicket">Ticket schließen</button>
+                        {% endif %}
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </footer>
+
+{% endblock %}

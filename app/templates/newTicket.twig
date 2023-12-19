@@ -1,0 +1,76 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1>Ticket erstellen</h1>
+
+        <form action="index.php" name="ticketForm" method="post">
+            <h3>Erstellungsdetails:</h3>
+            <div class="form-group">
+                <label for="prio">Priorität</label>
+                <input type="range" class="custom-range" id="prio" min="0" max="2">
+            </div>
+            <div class="form-group">
+                <label for="creationDate">Erstellungsdatum</label>
+                <input type="datetime-local" class="form-control" id="creationDate" name="creationDate" value="{{ ticketdetails[0].creationDate }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="finishDate">Fertigstellungsdatum</label>
+                <input type="datetime-local" class="form-control" id="finishDate" name="finishDate" value="{{ ticketdetails[0].finishDate }}">
+            </div>
+            <h3>Problem:</h3>
+            <div class="form-group">
+                <label for="typ">Typ des Problems</label>
+                <select class="form-control" id="typ" name="typ" >
+                    <option value="Hardware" {% if ticketdetails[0].typ == 'Hardware' %}selected{% endif %}>Hardware</option>
+                    <option value="Software" {% if ticketdetails[0].typ == 'Software' %}selected{% endif %}>Software</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="describtion">Beschreibung</label>
+                <textarea class="form-control" id="describtion" name="describtion" rows="4" >{{ ticketdetails[0].describtion }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="appearanceTime">Wann ist es erschienen?</label>
+                <input type="datetime-local" class="form-control" id="appearanceTime" name="appearanceTime" value="{{ ticketdetails[0].firstName }}">
+            </div>
+            <h3>Kundeninformationen:</h3>
+            <div class="form-group">
+                <label for="customerID">Kundennummer</label>
+                <input type="text" class="form-control" id="customerID" name="customerID" value="{{ ticketdetails[0].firstName }}">
+            </div>
+            <div class="form-group">
+                <label for="firstName">Vorname</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" value="{{ ticketdetails[0].firstName }}">
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Nachname</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" value="{{ ticketdetails[0].lastName }}">
+            </div>
+
+            <div class="form-group">
+                <label for="adress">Adresse</label>
+                <input type="text" class="form-control" id="adress" name="adress" value="{{ ticketdetails[0].adress }}">
+            </div>
+
+            <div class="form-group">
+                <label for="phoneNumber">Telefonnummer</label>
+                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" value="{{ ticketdetails[0].phoneNumber }}">
+            </div>
+
+            <div class="form-group">
+                <label for="mail">E-Mail</label>
+                <input type="email" class="form-control" id="mail" name="mail" value="{{ ticketdetails[0].mail }}">
+            </div>
+
+            <button type="submit" name="submitTicket" id="submitTicket" class="btn btn-primary">Ticket erstellen</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("creationDate").value = new Date().toISOString().slice(0, 16).replace('T', ' ');
+        });
+    </script>
+{% endblock %}
