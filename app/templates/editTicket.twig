@@ -5,6 +5,7 @@
         <h1>Ticket erstellen</h1>
 
         <form action="index.php" name="ticketForm" method="post">
+            <input type="hidden" value="{{ ticketdetails[0].ticketID }}" name="ticketID">
             <h3>Erstellungsdetails:</h3>
             <div class="form-group">
                 <label for="prio">Priorität</label>
@@ -64,13 +65,8 @@
                 <input type="email" class="form-control" id="mail" name="mail" value="{{ ticketdetails[0].mail }}">
             </div>
 
-            <button type="submit" name="submitTicket" id="submitTicket" class="btn btn-primary">Ticket erstellen</button>
+            <button type="submit" name="editTicket" id="editTicket" class="btn btn-primary">Bearbeitung abschließen</button>
         </form>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("creationDate").value = new Date().toISOString().slice(0, 16).replace('T', ' ');
-        });
-    </script>
 {% endblock %}

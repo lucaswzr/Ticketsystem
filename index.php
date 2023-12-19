@@ -15,7 +15,7 @@ if ($ticketID > 0) {
     echo $renderer->render('newTicket.twig');
 } elseif (isset($_GET['editTicket']) && intval($_GET['editTicket'])){
     $editableTicketData = $ticket->ticketData(intval($_GET['editTicket']));
-    echo $renderer->render('newTicket.twig', ['ticketdetails' => $editableTicketData]);
+    echo $renderer->render('editTicket.twig', ['ticketdetails' => $editableTicketData]);
 } else {
 
     $filter = $_GET['filter'] ?? 0;
@@ -27,9 +27,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     if (isset($_POST['submitTicket'])){
         $ticket->ticketForm($_POST);
-    } elseif (isset($_POST['closeTicket'])){
+    }elseif (isset($_POST['editTicket'])){
+        $ticket->editTicket($_POST);
+    }
+    elseif (isset($_POST['closeTicket'])){
         $ticket->closeOpenTicket($_POST['ticketID'], 1);
+        header('Location: index.php');
     } elseif (isset($_POST['openTicket'])){
         $ticket->closeOpenTicket($_POST['ticketID'], 0);
+        header('Location: index.php');
     }
 }

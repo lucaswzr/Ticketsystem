@@ -10,10 +10,18 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container mt-5">
-        <table border="1">
+    <div class="text-center mt-4">
+        <a href="?filter=0" class="btn btn-primary d-inline-block">Offene Tickets anzeigen</a>
+        <a href="?filter=1" class="btn btn-primary d-inline-block">Erledigte Tickets anzeigen</a>
+        <a href="?filter=0,1" class="btn btn-primary d-inline-block">Alle Tickets anzeigen</a>
+
+    </div>
+
+    <div class="container mt-5 mx-auto">
+        <table border="1" class="mx-auto">
             <thead>
             <tr>
+                <th>Erledigt?</th>
                 <th>Ticket ID</th>
                 <th>Ersteller</th>
                 <th>Erstellungsdatum</th>
@@ -23,6 +31,7 @@
             <tbody>
             {% for row in data %}
                 <tr onclick="openDetails({{ row.ticketID }})">
+                    <td style="background-color: {% if row.finish == 1 %}red{% else %}green{% endif %};"></td>
                     <td>{{ row.ticketID }}</td>
                     <td>{{ row.creator }}</td>
                     <td>{{ row.creationDate }}</td>

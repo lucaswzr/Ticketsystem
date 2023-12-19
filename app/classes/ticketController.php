@@ -14,8 +14,13 @@ class ticketController
 
     public function getAllTickets($filter): bool|array
     {
-        $tickets = $this->connection->prepare('SELECT ticketID,creator,creationDate,Prio FROM `ticket` WHERE finish IN (:filter)');
-        $tickets->bindValue('filter', $filter);
+        $filters = explode(',', $filter);
+        $filterCondition = implode(',', array_fill(0, count($filters), '?'));
+
+        $tickets = $this->connection->prepare('SELECT ticketID,creator,creationDate,Prio,finish FROM `ticket` WHERE finish IN (' . $filterCondition . ')');
+        foreach ($filters as $key => $value) {
+            $tickets->bindValue(($key + 1), $value);
+        }
         $tickets->execute();
         return $tickets->fetchAll(\PDO::FETCH_ASSOC);
     }
@@ -91,5 +96,57 @@ class ticketController
         $stmt->bindValue('ticketid', $ticketID);
         $stmt->execute();
 
+    }
+
+    public function editTicket($data): void
+    {
+
+        $formData = [
+            'id' => $data['ticketID'],
+            'prio' => $data['prio'] ?? '0',
+            'finishDate' => $data['finishDate'] ?? '',
+            'typ' => $data['typ'] ?? '',
+            'describtion' => $data['describtion'] ?? '',
+            'appearanceTime' => $data['appearanceTime'] ?? '',
+            'customerID' => $data['customerID'] ?? '',
+            'firstName' => $data['firstName'] ?? '',
+            'lastName' => $data['lastName'] ?? '',
+            'adress' => $data['adress'] ?? '',
+            'phoneNumber' => $data['phoneNumber'] ?? '',
+            'mail' => $data['mail'] ?? '',
+        ];
+
+        try {
+            $this->connection->beginTransaction();
+
+            $stmt = $this->connection->prepare("UPDATE ticket SET finishDate = :fertigDatum, Prio = :prioritaet WHERE ticketID = :id");
+            $stmt->bindValue(':id', $formData['id']);
+            $stmt->bindValue(':fertigDatum', $formData['finishDate']);
+            $stmt->bindValue(':prioritaet', $formData['prio']);
+            $stmt->execute();
+
+            $stmt2 = $this->connection->prepare("UPDATE ticketContent SET typ = :typ, describtion = :descr, appearanceTime = :appearanceTime WHERE ticketID = :id");
+            $stmt2->bindValue(':id', $formData['id']);
+            $stmt2->bindValue(':typ', $formData['typ']);
+            $stmt2->bindValue(':descr', $formData['describtion']);
+            $stmt2->bindValue(':appearanceTime', $formData['appearanceTime']);
+            $stmt2->execute();
+
+            $stmt3 = $this->connection->prepare("UPDATE ticketUser SET customerID = :customerID, firstName = :firstName, lastName = :lastName, adress = :adress, phoneNumber = :phoneNumber, mail = :mail WHERE ticketID = :id");
+            $stmt3->bindValue(':id', $formData['id']);
+            $stmt3->bindValue(':customerID', $formData['customerID']);
+            $stmt3->bindValue(':firstName', $formData['firstName']);
+            $stmt3->bindValue(':lastName', $formData['lastName']);
+            $stmt3->bindValue(':adress', $formData['adress']);
+            $stmt3->bindValue(':phoneNumber', $formData['phoneNumber']);
+            $stmt3->bindValue(':mail', $formData['mail']);
+            $stmt3->execute();
+
+            $this->connection->commit();
+
+        } catch (\Exception $e){
+            $this->connection->rollBack();
+            echo "Fehler: " . $e->getMessage();
+        }
     }
 }
