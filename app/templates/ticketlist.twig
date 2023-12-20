@@ -21,7 +21,7 @@
         <table border="1" class="mx-auto">
             <thead>
             <tr>
-                <th>Erledigt?</th>
+                <th class="ticketList names">Erledigt?</th>
                 <th>Ticket ID</th>
                 <th>Ersteller</th>
                 <th>Erstellungsdatum</th>
@@ -32,10 +32,10 @@
             {% for row in data %}
                 <tr onclick="openDetails({{ row.ticketID }})">
                     <td style="background-color: {% if row.finish == 1 %}red{% else %}green{% endif %};"></td>
-                    <td>{{ row.ticketID }}</td>
-                    <td>{{ row.creator }}</td>
-                    <td>{{ row.creationDate }}</td>
-                    <td>{{ row.Prio }}</td>
+                    <td class="ticketList list-data">{{ row.ticketID }}</td>
+                    <td class="ticketList list-data">{{ row.creator }}</td>
+                    <td class="ticketList list-data">{{ row.creationDate }}</td>
+                    <td class="ticketList list-data">{{ row.Prio }}</td>
                 </tr>
             {% endfor %}
             </tbody>

@@ -6,9 +6,9 @@
 
         <form action="index.php" name="ticketForm" method="post">
             <h3>Erstellungsdetails:</h3>
-            <div class="form-group">
+            <div class="form-group priority">
                 <label for="prio">Priorität</label>
-                <input type="range" class="custom-range" id="prio" name="prio" min="0" max="2">
+                <input type="range" class="custom-range" id="prio" name="prio" min="0" max="2" />
             </div>
             <div class="form-group">
                 <label for="creationDate">Erstellungsdatum</label>
@@ -71,6 +71,18 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("creationDate").value = new Date().toISOString().slice(0, 16).replace('T', ' ');
+        });
+
+    </script>
+    <script>
+        document.getElementById("prio").addEventListener("input", function () {
+            let priority = this.value;
+
+            // Remove existing classes
+            this.classList.remove("priority-0", "priority-1", "priority-2");
+
+            // Add class based on priority value
+            this.classList.add("priority-" + priority);
         });
     </script>
 {% endblock %}
